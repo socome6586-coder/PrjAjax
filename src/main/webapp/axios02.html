@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script src="https://cdn.jsdelivr.net/npm/axios@1.15.2/dist/axios.min.js"></script>
+</head>
+<body>
+<input type="text" id="name" value="신동엽" />
+ <button>Get data</button>
+ <div></div>
+ 
+ <script>
+   const txtEl = document.querySelector('#name')
+   const btnEl = document.querySelector('button')
+   const divEl = document.querySelector('div')
+ 
+   // http://localhost:8080/product?name=강호동
+   btnEl.addEventListener('click', function() {
+		   axios({
+			   url: 'http://localhost:8080/product', // 통신할 웹문서
+			   method: 'get',                        // 통신할 방식
+			   params: {                             // 인자로 보낼 데이터
+			     name: txtEl.value
+			   }
+			 })
+			 .then(response => {
+				 console.dir(response)
+				 
+				 let jsonObj  = response.data
+				 
+				 let name     = jsonObj.name
+				 let language = jsonObj.language
+				 
+				 divEl.innerHTML = '<h2>' + name + "," + language + '</h2>'
+			 })
+			   .catch(error => console.log(error))
+	   
+   })
+   
+ </script>
+ 
+ 
+</body>
+</html>

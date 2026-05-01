@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<style>
+
+</style>
+
+<script src="https://code.jquery.com/jquery.min.js"></script>
+<script>
+  $( function() {
+	  $('button').on('click', function() {
+		  //alert('ok')
+		  let  loc = '/data/data.json'
+		  //let  loc = 'https://jsonplaceholder.typicode.com/posts/1'
+		  $.ajax( {
+			  url : loc
+		  })
+		  .done( function ( result ) {
+			  console.log( result )
+			  let dataArr = result.dataList 
+			  console.log( dataArr )
+			  // alert(dataList)  // [object Object]
+			  let html = ''
+			  for (var i = 0; i < dataArr.length; i++) {
+				  let data = dataArr[i]
+				  console.log(data)
+				  html +=  '<div id="div1">'
+				  html +=  '<h2>' + data.name      + '</h2>'
+				  html +=  '<p>'  + data.language  + '</[]>'
+				  html +=  '<p>'  + data.age       + '</[]>'
+				  html +=  '</div>'
+			  }
+
+			  
+			  $('#output').html ( html )
+		  } )
+		  .fail( function (error) {
+			  console.log( error )
+		  } )
+	  })
+  } )
+</script>
+</head>
+<body>
+  <h2>JQuery Ajax 02</h2>
+  <button>Get Data</button>
+  <a href="/data/data.json">Data</a>
+  <div id="output"></div>
+</body>
+</html>
+
+
+
+
+
+
+
+

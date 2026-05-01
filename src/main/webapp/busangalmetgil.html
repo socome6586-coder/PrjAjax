@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<style>
+  ul { 
+     border:1px solid blue;
+     border-radius : 10px; 
+     margin:10px;
+   }
+</style>
+</head>
+<body>
+   <h2>부산 갈맷길 서비스</h2>
+   보고싶은 페이지<input type="number" id="page" value="1" min="1" />
+   <button>Get Data</button>
+   <div id="output"></div> 
+   
+   <script>
+     const  pageEl   =  document.querySelector('#page')
+     const  btnEl    =  document.querySelector('button')
+     const  outputEl =  document.querySelector('#output')
+     
+     // button 이 클릭되면
+     btnEl.addEventListener("click", function() {
+    	 //alert('ok')
+    	 // 서버에서가져온다 : Get 방식으로
+    	 let  url  = 'http://apis.data.go.kr/6260000/fbusangmgtourinfo/getgmgtourinfo'
+    	 url      += '?ServiceKey=8bb6ff6258c50440c59d854a04654f01af087e2a9ada419430c1bfd24913e4a8'
+    	 url      += '&numOfRows=10' // 한 페이지에 몇 개의 자료를 출력할지 정함		 
+    	 url      += '&pageNo=' + pageEl.value
+    	 url      += '&resultType=json'		 
+    	 fetch( url  )
+    	   .then( response => response.json() )
+    	   .then( json     => {
+    		   console.log( json )
+    		   
+    		   // outputEl.innerHTML = JSON.stringify( json )
+    		   let itemList    =  json.response.body.items.item
+    		   let totalCount  =  parseInt(json.response.body.totalCount)  
+    		   let numOfRows   =  parseInt(json.response.body.numOfRows)
+    		   let maxPage     =  Math.ceil( totalCount / numOfRows )
+    		   pageEl.max      =  maxPage 
+    		   console.log( itemList )
+    		   
+    		   dataDisplay( itemList )
+    	   } )
+    	   .catch( error => console.log( error ) )
+     })
+     
+     function dataDisplay( itemList ) {
+    	 
+    	 let html = ''
+    	 itemList.forEach( function( item, i ) {
+    		html += `
+    	       <ul> 
+    		   <li>일련번호:${item.uc_seq}</li> 
+    		   <li>제목:${item.title}</li> 
+    		   <li>장소:${item.place}</li> 
+    		   <li>이름:${item.name}</li> 
+    		   <li>경도:${item.lng}</li> 
+    		   <li>위도:${item.lat}</li> 
+    		   <li>소개글:${item.itemcntnts}</li> 
+    		   <li>코스:${item.course}</li> 
+    		   <li>구간:${item.gugan}</li> 
+    		   <li>종류:${item.cate1_nm}</li> 
+    		   <li>썸네일:${item.main_img_t}</li> 
+    		   <li><img src="https://www.visitbusan.net${item.main_img_t}" /></li> 
+    		   <li>메인이미지:${item.main_img_n}</li> 
+    		   <li><img src="https://www.visitbusan.net${item.main_img_n}" /></li> 
+    		   </ul> 
+    		`   
+    	 } )
+    	 
+    	 outputEl.innerHTML = html
+     }
+   
+   
+   </script>
+</body>
+</html>
+
+
+
+
+
+
+

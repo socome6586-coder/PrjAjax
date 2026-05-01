@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+   <button>Get Data</button>
+   <div id="output"></div>
+   
+   <script>
+    const  btnEl      =  document.querySelector('button')
+    const  outputEl   =  document.querySelector('#output')
+    btnEl.onclick     =  function() {
+    	
+    	/*
+    	// 1.기본형식    	
+    	let  url   =  'data/data.json'
+    	fetch( url )
+    	  .then( response => console.log("response", response ) )
+    	  .catch( error => console.log("error:", error        ) );
+    	*/
+    	
+    	/*
+    	// 2.get 요청
+    	let  num  = 3 
+    	//let  url  = 'https://jsonplaceholder.typicode.com/posts/' + num 
+    	let  url  = 'data/data.json' 
+    	fetch ( url )
+    	  .then( (response) => response.json() )
+    	  .then( (data)     => {
+    		   console.log( data.dataList )
+    		   let html = ''
+    		   let arr  = data.dataList
+    		   arr.forEach( function(item, index) {
+    			   html += `
+    			       <ul>
+    			         <li>${ item.name     }</li>
+    			         <li>${ item.language }</li>
+    			         <li>${ item.age      }</li>
+    			       </ul>
+    			   `
+    		   } )
+    		   
+    		   output.innerHTML = html;
+    	  } )
+    	  .catch( error  => console.log(error) );
+    	*/
+    	
+    	// Rest 방식 접근
+    	// 주소는 하나로 작업
+    	// Method    CRUD  , db                           Spring
+    	// POST   : Create , insert                     -> @PostMapping
+    	// GET    : Read   , select                     -> @GetMapping
+    	// PUT    : Update , update : 전체를 수정       -> @PutMapping 
+    	// Patch  : Update,  update : 일부만 수정 가능  -> @PatchMapping
+    	// DELETE : Delete,  delete                     -> @DeleteMapping  
+    	
+    	/*
+    	// 3. post 요청 : Create - insert
+    	// body : 서버에 넘겨주는 정보들 : json 문자열로 보낸다
+    	fetch('https://jsonplaceholder.typicode.com/posts', {
+    		  method: 'POST',
+    		  body: JSON.stringify( {
+    		    title: '게시글',
+    		    body: '내용 ',
+    		    userId: 1,
+    		  } ),
+    		  // 클라이언트에서 서버로 보내는 정보의 type, application/json, application/xml, text/plain
+    		  headers: {
+    		    'Content-type': 'application/json; charset=UTF-8',
+    		  },
+    		})
+    	      // 요청한 후의 동작 : 응답한 정보를 json 으로 변경
+    		  .then((response) => response.json())
+    		  // 변경된 json 을 조작
+    		  .then((json) => {
+    			  console.log(json)
+    			  // JSON.stringify(json 객체) : json객체(Object) -> json 형태의 문자열(String)
+    			  outputEl.innerHTML = JSON.stringify( json )  
+    		  })
+    	      .catch( error  => console.log(error) );
+    	*/
+    	
+        // 4. POST 호출 예제  : data : form-data  전송방법- 다른방법
+    	// 4. form-data 방식의 전송 : <form></form> 처리하는 방식
+        // $.ajax를 사용할 때처럼 깔끔하게 object를 보내지 못하고 form data 형식 문자열을 넣어줘야 하는 부분이 불편해서
+         // 더 찾아봤더니 방법이 있었다. URLSearchParams를 사용하면 된다.
+         // 조금 더 테스트해보니 굳이 Content-Type을 지정하지 않아도 알아서 
+         // application/x-www-form-urlencoded로 지정됐다. 
+         // 그리고 이왕 명시적으로 지정할 거면 인코딩 정보까지 넣어서 
+         // application/x-www-form-urlencoded; charset=UTF-8 라고 지정
+         // 사실 별거 아닌 건데 인터넷에는 죄다 json으로 보내는 예제(아니면 파일 업로드)밖에 
+         // 없어서 처음 사용할 때 혼란이 있었다. 
+         // 왜 기본적인 form data 예제가 없었을까...         
+         // form data는 주로 html에서 form 태그로 보내니까 ajax에서는 필요가 없어서 그런가?
+		    const data = { 'title' : '게시글', 'body' : '내용', 'userId': 1 };
+			
+			fetch('https://jsonplaceholder.typicode.com/posts', {
+				 method: 'POST', // 또는 'PUT'
+				 headers: {
+				 //   'Content-Type': 'application/json'
+				    'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+				 },
+			     body: new URLSearchParams( data )
+			 })
+			   .then((response) => response.json())
+			   .then((data) => {
+			      console.log('성공:', data);
+			      outputEl.innerHTML = JSON.stringify( data )  
+		        })
+			    .catch((error) => {
+			       console.error('실패:', error);
+			    });	  
+        }  // on clcik
+   
+   </script>   
+   
+</body>
+</html>
+
+
+
+
+
+
+
+
+

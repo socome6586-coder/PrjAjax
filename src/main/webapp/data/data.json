@@ -1,0 +1,24 @@
+{
+  "dataList" : [
+	  {
+	     "name"     : "강호동",
+	     "language" : "Java",
+	     "age"      : 34
+	  },
+	  {
+	     "name"     : "유재석",
+	     "language" : "javascript",
+	     "age"      : 277
+	  },
+	  {
+	     "name"     : "신동엽",
+	     "language" : "Spring",
+	     "age"      : 36
+	  },
+	  {
+	     "name"     : "서장훈",
+	     "language" : "Oracle",
+	     "age"      : 33
+	  }
+	]
+}

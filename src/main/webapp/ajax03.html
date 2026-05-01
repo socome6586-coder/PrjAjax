@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<style>
+  .box  { 
+    width         : 150px; 
+    border        : 1px solid blue;
+    border-radius : 10px;    
+    padding       : 10px;
+    margin        : 20px; 
+    float         : left;
+  }
+</style>
+
+<script src="https://code.jquery.com/jquery.min.js"></script>
+<script>
+  window.onload = function() {
+	  const btn1El = document.querySelector('#btn1')
+	  const div1El = document.querySelector('#div1')
+	  
+	  btn1El.addEventListener('click', function() {
+		  // 1. xhr 객체를 준비한다 		 
+		  const  xhr  = new XMLHttpRequest();
+		  
+		  // xhr.readyState
+		  // 0. new XMLHttpRequest()
+		  // 1. open 
+		  // 2. send
+		  // 3. 첫번째 data 가 도착한다
+		  // 4. 모든 data 가 도착했다
+		  // xhr 상태 변화 추적
+		  xhr.onreadystatechange = function() {
+			  // alert( xhr.readyState )
+			  if( xhr.readyState == 4  ) {
+				  if ( xhr.status == 200 ) {  // 200 :ok
+					  /*
+					  let  result  =  xhr.responseText
+					  //console.log(result)   // xml 형태의 문자열 : String
+					  let  parser  =  new DOMParser();  
+					  let  xmlDoc  =  parser.parseFromString(result, 'text/xml')   // xml Document 객체 <- String(xml 형태)
+					  //console.log(xmlDoc)   //
+					  */
+					  
+					  let xmlDoc = xhr.responseXML; // xml Document  
+					  
+					  // 문서 조작
+					  let  names     = xmlDoc.getElementsByTagName('name');
+					  let  languages = xmlDoc.getElementsByTagName('language');
+					  let  ages      = xmlDoc.getElementsByTagName('age');
+					  
+					  let  tag       = ''
+					  for (var i = 0; i < names.length; i++) {
+						  console.dir(names[i])
+						  tag     +=   '<div class="box">'
+						  tag     +=   '<h2>' + names[i].innerHTML      + '</h2>'
+						  tag     +=   '<p>'  + languages[i].innerHTML  + '</p>'
+						  tag     +=   '<p>'  + ages[i].innerHTML       + '</p>'
+						  
+						  tag     +=   '</div>'
+					  }
+					  
+					  
+					  
+					  div1El.innerHTML = tag 
+				  }
+			  }
+		  }
+		  
+		  
+		  // 2. data 요청을 준비 - 비동기방식
+		  let loc = '/data/data.xml'
+		  xhr.open('GET', loc, true)
+		  
+		  // 3. data 요청
+		  xhr.send()		
+		  
+	  })
+  }
+</script>
+</head>
+<body>
+  <h2>Ajax(Asynchronous JavaScript And XML)</h2>
+  <p>페이지 전체를 바꾸지 않고 서버의 data 를 가져온다</p>
+  <p>2. XMLHttpRequest(xhr) 객체</p>
+  <p>비동기방식</p>
+  <button id="btn1">Get Data</button>
+  <a href="http://localhost:8080/data/data.html">data.html</a>
+  <div id="div1"></div>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+

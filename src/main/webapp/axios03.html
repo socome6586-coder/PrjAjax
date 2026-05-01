@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+ <h2>회원등록</h2>
+ <input type="text" id="name"     value="장원영" />
+ <input type="text" id="language" value="ive" />
+ <button id="add">회원등록</button>
+ <div id="div1"></div>
+ <br>
+ <hr>
+ 
+ <h2>회원조회</h2>
+ <input type="text" id="name2"     value="장원영" />
+ <button id="get">회원조회</button>
+ <div id="div2"></div>
+ 
+ <!--  -->
+ 
+<script src="https://cdn.jsdelivr.net/npm/axios@1.15.2/dist/axios.min.js"></script>
+
+ <script>
+   // 함수
+   function addProduct() {
+	    const nameEl     = document.querySelector('#name')
+	    const languageEl = document.querySelector('#language')
+	    
+		const url        = 'http://localhost:8080/product'
+		
+		const formData   = new FormData()
+		formData.append("name",     nameEl.value)
+		formData.append("language", languageEl.value)
+		//formData.append("pic",      file)
+		
+		const config = {
+				headers : {
+					"content-type" : "multipart/form-data"
+			}
+		}
+	    
+	    return axios.post(url, formData, config)
+    }
+ 
+ 
+ 
+   // 등록처리
+	   const addbtnEl      = document.querySelector('button')
+	   const div1El        = document.querySelector('div')
+ 
+   // http://localhost:8080/product : post 방식 호출
+   addbtnEl.addEventListener('click', function() {
+		   
+	   addProduct();
+	   
+   })
+   
+   // 조회
+	   const name2El  = document.querySelector('#name2')   
+	   const getbtnEl = document.querySelector('#get')   
+	   const div2El   = document.querySelector('#div2')   
+   
+   getbtnEl.addEventListener('click', function() {
+   		const url      = 'http://localhost:8080/product'
+   		
+   		axios ({
+			url : url,
+			method : 'get',
+			params : {
+				name : name2El.value
+			}
+   		})
+   		.then(response => {
+   			let name = response.data.name
+   			let language = response.data.language
+   			div2El.innerHTML = name + '' + language
+   		})
+   		.catch(error => console.log(error))
+   })
+   
+ </script>
+ 
+ 
+</body>
+</html>

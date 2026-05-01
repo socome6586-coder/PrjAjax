@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<friends>
+  <friend>
+    <name>강호동</name>
+    <language>Java</language>
+    <age>34</age>
+  </friend>
+  <friend>
+    <name>유재석</name>
+    <language>javascript</language>
+    <age>27</age>
+  </friend>
+  <friend>
+    <name>신동엽</name>
+    <language>Spring</language>
+    <age>36</age>
+  </friend>
+  <friend>
+    <name>서장훈</name>
+    <language>Oracle</language>
+    <age>33</age>
+  </friend>
+</friends>

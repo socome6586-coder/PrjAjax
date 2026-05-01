@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+  <input type="number" id="num" value="1" min="1" max="5000" />
+  <button>Ok</button>
+  <div id="output"></div>
+  
+  <script>
+    const  numEl     =  document.querySelector('#num')
+    const  btnEl     =  document.querySelector('button')
+    const  outputEl  =  document.querySelector('#output')
+    
+    btnEl.addEventListener('click', function() {
+    	//alert( numEl.value )
+    	
+    	let  num   =  numEl.value
+    	let  html  = ''
+    	fetch('https://jsonplaceholder.typicode.com/photos/' + num )
+    	   .then((response) => response.json())
+    	   .then((json) => {
+    		   console.log(json)
+    		   html += `
+    		      <ul>
+    		        <li>albumId      :  ${ json.albumId       }</li>
+    		        <li>id           :  ${ json.id            }</li>
+    		        <li>title        :  ${ json.title         }</li>
+    		        <li>thumbnailUrl :  ${ json.thumbnailUrl  }</li>
+    		        <li><img src='${ json.thumbnailUrl }' /></li>
+    		        <li>url          :  ${ json.url           }</li>
+    		        <li><img src='${ json.url }' /></li>
+    		      </ul>
+    		   `
+    		   outputEl.innerHTML = html 
+    	    }); // fetch    	    
+    	    
+    })  // btnEl click enc
+  
+    numEl.addEventListener('change', function() {
+    	//alert( this.value )
+    	btnEl.click();
+    })  
+  
+  </script>
+</body>
+</html>
+
+
+
+
+
+
+
+

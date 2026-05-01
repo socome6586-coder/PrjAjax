@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<style>
+
+</style>
+
+<script src="https://code.jquery.com/jquery.min.js"></script>
+<script>
+  window.onload = function() {
+	  const btn1El = document.querySelector('#btn1')
+	  const div1El = document.querySelector('#div1')
+	  
+	  btn1El.addEventListener('click', function() {
+		  // alert( this.innerHTML )
+		  // 1. xhr 객체를 준비한다
+		  const  xhr  = new XMLHttpRequest();
+		 //  let    loc  = '/data/data.html';
+		 // let    loc  = '/data/obj.json';
+		 // let    loc  = '/data/friends.xml';
+		 let    loc  = '/data/friends.json';
+		 // let    loc  = 'https://jsonplaceholder.typicode.com/todos/4';
+		  // 2. 요청을 준비한다 : get 방식
+		  // false : 동기방식호출
+		  // true  : 비동기 방식호출
+		  xhr.open('GET', loc, false )
+		  
+		  // 3. 서버를 호출한다
+		  xhr.send();
+		  
+		  // 4. 도착한 data를 처리한다
+		  let result = xhr.responseText;
+		  //alert(result)
+		  
+		  div1El.innerHTML = result;
+		  
+	  })
+  }
+</script>
+</head>
+<body>
+  <h2>Ajax(Asynchronous JavaScript And XML)</h2>
+  <p>페이지 전체를 바꾸지 않고 서버의 data 를 가져온다</p>
+  <p>1. XMLHttpRequest(xhr) 객체</p>
+  <p>동기방식</p>
+  <button id="btn1">Get Data</button>
+  <div id="div1"></div>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
