@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<style>
+  ul { 
+     border:1px solid blue;
+     border-radius : 10px; 
+     margin:10px;
+   }
+</style>
+</head>
+<body>
+ <h2>부산 명소 둘러보기</h2>
+ 보고싶은 페이지 입력<input type="number" id="page" value="1" min="1"> 
+ <button>보기</button>
+ <div id="output"></div>
+ 
+ <script>
+ 	const pageEl   = document.querySelector('#page')
+ 	const btnEl    = document.querySelector('button')
+    const outputEl = document.querySelector('#output')
+ 
+ // button 을 클릭하면 실행
+ btnEl.addEventListener("click", function() {
+	 
+	 // Get 방식으로 서버에서 가져 옴
+	 let url  = 'https://apis.data.go.kr/6260000/AttractionService/getAttractionKr'
+	 url     += '?ServiceKey=8bb6ff6258c50440c59d854a04654f01af087e2a9ada419430c1bfd24913e4a8'
+	 url     += '&numOfRows=10'
+	 url     += '&pageNo=' + pageEl.value
+	 url     += '&resultType=json'
+	 fetch (url)
+	   .then(response => response.json())
+	   .then(json     => {
+		   
+		   console.dir(json)
+		   
+		   let itemList   = json.getAttractionKr.item
+		   let totalCount = parseInt(json.getAttractionKr.totalCount)
+		   let numOfRows  = parseInt(json.getAttractionKr.numOfRows)
+		   let maxPage    = Math.ceil(totalCount / numOfRows)
+		   pageEl.max     = maxPage
+		   
+		   dataDisplay(itemList)
+	   }).catch(error => console.log(error))
+ })
+ 
+ function dataDisplay(itemList) {
+ 		
+ 		let html = ''
+ 		itemList.forEach(function(item, i) {
+ 			html += `
+ 			<ul>
+   			  <li>주소 : ${item.ADDR1}</li>
+   			  <li>번호 : ${item.CNTCT_TEL}</li>
+   			  <li>구군 : ${item.GUGUN_NM}</li>
+   			  <li>홈페이지 : <a href="${item.HOMEPAGE_URL}" target="_blank">${item.HOMEPAGE_URL}</a></li>
+   			  <li>위도 : ${item.LAT}</li>
+   			  <li>경도 : ${item.LNG}</li>
+   			  <li>제목 : ${item.MAIN_TITLE}</li>
+   			  <li>부제목 : ${item.TITLE}</li>
+   			  <li>이미지</li>
+   			  <li><img src="${item.MAIN_IMG_NORMAL}" /></li>
+ 			</ul>
+ 			`
+ 		})
+ 		
+ 		
+ 		outputEl.innerHTML = html
+ 	}
+ 
+ </script>
+ 
+</body>
+</html>

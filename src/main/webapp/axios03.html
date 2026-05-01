@@ -6,9 +6,12 @@
 </head>
 <body>
  <h2>회원등록</h2>
+ 
  <input type="text" id="name"     value="장원영" />
  <input type="text" id="language" value="ive" />
+ 
  <button id="add">회원등록</button>
+ 
  <div id="div1"></div>
  <br>
  <hr>
@@ -27,9 +30,9 @@
    function addProduct() {
 	    const nameEl     = document.querySelector('#name')
 	    const languageEl = document.querySelector('#language')
-	    
 		const url        = 'http://localhost:8080/product'
 		
+		// 서버에 전달 될 인자 값 : post 방식
 		const formData   = new FormData()
 		formData.append("name",     nameEl.value)
 		formData.append("language", languageEl.value)
@@ -37,7 +40,7 @@
 		
 		const config = {
 				headers : {
-					"content-type" : "multipart/form-data"
+					"content-type" : "multipart/form-data" // 서버에 @MultipartConfig 필수
 			}
 		}
 	    
@@ -69,7 +72,7 @@
 			url : url,
 			method : 'get',
 			params : {
-				name : name2El.value
+				name : name2El.value // ?name=신동엽
 			}
    		})
    		.then(response => {

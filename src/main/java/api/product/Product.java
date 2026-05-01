@@ -6,16 +6,15 @@ import java.util.HashMap;
 import java.util.Map;
 
 import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-/**
- * Servlet implementation class Product
- */
 @WebServlet(asyncSupported = true, urlPatterns = { "/product" })
-@jakarta.servlet.annotation.MultipartConfig
+@MultipartConfig // 파일도 포함해서 보낸다, 설정 추가
+
 public class Product extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
@@ -56,6 +55,8 @@ public class Product extends HttpServlet {
 		out.print(json);
 		out.flush();
 		out.close();
+		
+		System.out.println(map);
 	}
 	
 	// 회원 등록
@@ -68,6 +69,7 @@ public class Product extends HttpServlet {
 		map.put(name, language);
 		
 		System.out.println(name + "이(가) 추가되었습니다.");
+		System.out.println(map);
 		
 	}
 
